@@ -5,6 +5,7 @@ from django.utils.text import slugify
 
 class Category(models.Model):
     name=models.CharField(max_length=50)
+    image=models.ImageField(upload_to='category/',blank=True)
     description=models.TextField()
     slug=models.SlugField(blank=True)
 
@@ -17,11 +18,15 @@ class Category(models.Model):
 
 class Product(models.Model):
     name=models.CharField(max_length=150)
-    desc=models.TextField()
+    description=models.TextField()
+    information=models.TextField()
     unite_price=models.DecimalField(max_digits=8, decimal_places=2)
-    image=models.ImageField(upload_to=None,blank=True)
+    image=models.ImageField(upload_to='product/',blank=True)
+    image2=models.ImageField(upload_to='product/',blank=True)
+    image3=models.ImageField(upload_to='product/',blank=True)
+    image4=models.ImageField(upload_to='product/',blank=True)
     stock=models.IntegerField()
-    discount=models.FloatField()
+    discount=models.FloatField(blank=True)
     category=models.ForeignKey(Category, on_delete=models.CASCADE)
     slug=models.SlugField(blank=True)
 
@@ -31,24 +36,25 @@ class Product(models.Model):
     def save(self,*args,**kwargs):
         self.slug = slugify(self.name)
         super().save(*args,**kwargs)
+
+
+# class Item(models.Model):
+#     product=models.OneToOneField(Product,on_delete=models.CASCADE)
+#     quantity=models.PositiveIntegerField()
+#     price=models.DecimalField(max_digits=8, decimal_places=2,blank=True)
+
+#     def save(self,*args,**kwargs):
+#         self.price=self.product.unite_price*self.quantity
+#         super().save(*args,**kwargs)
+
+# class Cart(models.Model):
+#     user=models.OneToOneField(get_user_model(),on_delete=models.CASCADE)
+#     is_orderd=models.BooleanField()
+#     Item=models.ManyToManyField(Item)
+#     total_price=models.DecimalField(max_digits=8, decimal_places=2)
+
     
-class Item(models.Model):
-    product=models.OneToOneField(Product,on_delete=models.CASCADE)
-    quantity=models.PositiveIntegerField()
-    price=models.DecimalField(max_digits=8, decimal_places=2,blank=True)
-
-    def save(self,*args,**kwargs):
-        self.price=self.product.unite_price*self.quantity
-        super().save(*args,**kwargs)
-
-class Cart(models.Model):
-    user=models.OneToOneField(get_user_model(),on_delete=models.CASCADE)
-    is_orderd=models.BooleanField()
-    Item=models.ManyToManyField(Item)
-    total_price=models.DecimalField(max_digits=8, decimal_places=2)
-
-    
-class Order(models.Model):
-    user=models.ForeignKey(get_user_model(),on_delete=models.CASCADE)
-    cart=models.OneToOneField(Cart,on_delete=models.CASCADE)
-    date_created=models.DateTimeField(auto_now_add=True)
+# class Order(models.Model):
+#     user=models.ForeignKey(get_user_model(),on_delete=models.CASCADE)
+#     cart=models.OneToOneField(Cart,on_delete=models.CASCADE)
+#     date_created=models.DateTimeField(auto_now_add=True)

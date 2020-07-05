@@ -14,6 +14,8 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TEMPLAT_DIR= os.path.join(BASE_DIR,"templates")
+MEDIA_ROOT = os.path.join(BASE_DIR,"media")
 
 
 # Quick-start development settings - unsuitable for production
@@ -56,7 +58,7 @@ ROOT_URLCONF = 'mart.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLAT_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -119,7 +121,19 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+MEDIA_URL='/media/'
+
 STATIC_URL = '/static/'
 
+LOGIN_REDIRECT_URL="/"
+
+LOGOUT_REDIRECT_URL="/"
 
 AUTH_USER_MODEL="account.User"
+
+# EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
+
+# AUTHENTICATION_BACKENDS =[
+#     'account.backends.EmailBackend',
+#     'django.contrib.auth.backends.ModelBackend',
+# ]
