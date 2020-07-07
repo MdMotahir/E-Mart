@@ -1,0 +1,12 @@
+{% extends 'product/Base.html' %}
+
+
+{%block containt%}
+    <form method='POST' enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.non_field_errors}}
+        {{form.errors}}
+        {{ form.as_p }}
+        <input type='submit' value='Update'>
+    </form>
+{% endblock %}
