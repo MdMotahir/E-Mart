@@ -1,0 +1,55 @@
+{% extends 'product/Base.html' %}
+
+{%block containt%}
+    <!-- Shoping Cart Section Begin -->
+	<section class="shoping-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="shoping__product">Order Id</th>
+                                    <th class="shoping__product">Order Date And Time</th>
+                                    <th class="shoping__product">Delivary Date And Time</th>
+                                    <th>Total</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in order %}
+                                    <tr>
+                                        <td class="shoping__cart__item">
+                                            <h5>{{i}}</h5>
+                                        </td>
+                                        <td class="shoping__cart__item">
+                                            <h5>{{i.order_date}}</h5>
+                                        </td>
+                                        <td class="shoping__cart__item">
+                                            <h5>{{i.delivary_date}}</h5>
+                                        </td>
+                                        <td class="shoping__cart__total">
+                                            <h5>{{i.get_total_price}}</h5>
+                                        </td>
+                                        <td class="shoping__cart__item__item">
+                                            <a href="{%url 'Details' i.id%}" class="primary-btn">Order Details</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__btns">
+                        <a href="#" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Shoping Cart Section End -->
+{% endblock %}

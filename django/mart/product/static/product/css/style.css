@@ -1859,6 +1859,7 @@ ol {
 
 .product__details__tab .product__details__tab__desc p {
 	color: #666666;
+	font-size: 20px;
 }
 
 /*---------------------
@@ -2901,6 +2902,39 @@ ol {
 	letter-spacing: 2px;
 }
 
+.main_review{
+	width: 100%;
+	border: 1px solid black;
+}
+.comment{
+	padding: 2px 20px;
+}
+.review_head{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	background-color: aliceblue;
+	padding: 2px 10px;
+}
+
+.wrong_search{
+    width: 80%;
+    margin: 0px auto;
+}
+.wrong_search p{
+    font-size: 30px;
+    color: #172146;
+}
+.wrong_search ul{
+    font-size: 24px;
+    color: #172146;
+}
+.query{
+    font-weight: 800;
+    color: #0084ff;
+}
+
+
 /*--------------------------------- Responsive Media Quaries -----------------------------*/
 
 @media only screen and (min-width: 1200px) {
@@ -3467,5 +3501,3 @@ ol {
 		font-size: 24px;
 	}
 }
-
-

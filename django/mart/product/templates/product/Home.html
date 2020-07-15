@@ -1,4 +1,5 @@
 {% extends 'product/Base.html' %}
+{% load static %}
 
 {%block containt%}
     
@@ -71,49 +72,15 @@
                 {% for i in products %}
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="featured__item">
-                            <div class="featured__item__pic set-bg" data-setbg="{{i.image2.url}}">
+                            <div class="featured__item__pic set-bg" data-setbg="{{i.front_image.url}}">
                                 <ul class="featured__item__pic__hover">
                                     <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                    <li><a href="{%url 'order' i.slug%}"><i class="fas fa-shopping-bag"></i></a></li>
+                                    <li><a href="{%url 'add_cart' i.slug%}"><i class="fa fa-shopping-cart"></i></a></li>
                                 </ul>
                             </div>
                             <div class="featured__item__text">
                                 <h6><a href="{%url 'Product Details' i.slug%}">{{i.name}}</a></h6>
-                                <h5>${{i.unite_price}}</h5>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-                {% for i in products %}
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <div class="featured__item">
-                            <div class="featured__item__pic set-bg" data-setbg="{{i.image2.url}}">
-                                <ul class="featured__item__pic__hover">
-                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="featured__item__text">
-                                <h6><a href="#">{{i.name}}</a></h6>
-                                <h5>${{i.unite_price}}</h5>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-                {% for i in products %}
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <div class="featured__item">
-                            <div class="featured__item__pic set-bg" data-setbg="{{i.image2.url}}">
-                                <ul class="featured__item__pic__hover">
-                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="featured__item__text">
-                                <h6><a href="#">{{i.name}}</a></h6>
                                 <h5>${{i.unite_price}}</h5>
                             </div>
                         </div>

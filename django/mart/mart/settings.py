@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'account',
     'product',
+    'django_summernote',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,6 +43,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+SUMMERNOTE_THEME = 'lite'
+SUMMERNOTE_CONFIG = {
+        'width': '380px',
+        'height': '320',
+    }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -131,9 +138,9 @@ LOGOUT_REDIRECT_URL="/"
 
 AUTH_USER_MODEL="account.User"
 
-# EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
 
-# AUTHENTICATION_BACKENDS =[
-#     'account.backends.EmailBackend',
-#     'django.contrib.auth.backends.ModelBackend',
-# ]
+AUTHENTICATION_BACKENDS =[
+    'account.backends.EmailBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]

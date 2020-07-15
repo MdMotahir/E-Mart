@@ -1,12 +1,58 @@
 {% extends 'product/Base.html' %}
+{% load static %}
 
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static "product/css/form.css"%}">
+{% endblock %}
 
 {%block containt%}
-    <form method='POST' enctype="multipart/form-data">
+    <h1>Add Product</h1>
+    <form class='form' method='POST' enctype="multipart/form-data">
         {% csrf_token %}
         {{form.non_field_errors}}
         {{form.errors}}
-        {{ form.as_p }}
-        <input type='submit' value='Update'>
+        <p class='label'>Name</p>
+        <div class="iconfield">
+            <i class="fas fa-user-tie"></i>
+            <input class='field' placeholder="Product Name"{{form.name}}
+        </div>
+        <p class='label'>Category </br> {{form.category}}<br></p>
+        <p class='label'>Unite Price</p>
+        <div class="iconfield">
+            <i class="fa fa-envelope"></i>
+            <input class='field' placeholder="Product Unite Price"{{form.unite_price}}
+        </div>
+        <p class='label'>Front Image</p>
+        <div class="iconfield">
+            <i class="fas fa-mobile-alt"></i>
+            <input class='field'  placeholder="Product Front Image"{{form.front_image}}
+        </div>
+        <p class='label'>Backside Image</p>
+        <div class="iconfield">
+            <i class="fas fa-key"></i>
+            <input class='field' placeholder="Backside Image"{{form.back_image}}
+        </div>
+        <p class='label'>Rightside Image</p>
+        <div class="iconfield">
+            <i class="fas fa-key"></i>
+            <input class='field' placeholder="Rightside Image "{{form.right_image}}
+        </div>
+        <p class='label'>Leftside Image</p>
+        <div class="iconfield">
+            <i class="fas fa-mobile-alt"></i>
+            <input class='field'  placeholder="Leftside Image"{{form.left_image}}
+        </div>
+        <p class='label'>Stock</p>
+        <div class="iconfield">
+            <i class="fas fa-mobile-alt"></i>
+            <input class='field'{{form.stock}}
+        </div>
+        <p class='label'>Description</p>
+            {{form.description|safe}}
+        <p class='label'>Information</p>
+            {{form.information|safe}}
+        <div class='submit_btn'>
+            <input id='sub' type='submit' value='Sign Up'>
+        </div>
     </form>
 {% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'product/Base.html' %}
+{% load static %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static "product/css/form.css"%}">
+{% endblock %}
+
+{%block containt%}
+    <h1>Sign Up</h1>
+    <form class='form' method='POST' enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.non_field_errors}}
+        {{form.errors}}
+        <div id='name'>
+            <div id='firstname'>
+                <p class='label'>First Name</p>
+                <input class='field'  placeholder="First Name Please"{{form.first_name}}
+            </div>
+            <div id='lastname'>
+                <p class='label'>Last Name</p>
+                <input class='field'  placeholder="Last Name Please"{{form.last_name}}
+            </div>
+        </div>
+        <p class='label'>Username</p>
+        <div class="iconfield">
+            <i class="fas fa-user-tie"></i>
+            <input class='field' placeholder="Conatins Letters, digits and @/./+/-/_ only."{{form.username}}
+        </div>
+        <p class='label'>Email</p>
+        <div class="iconfield">
+            <i class="fa fa-envelope"></i>
+            <input class='field' placeholder="Your Email Please"{{form.email}}
+        </div>
+        <p class='label'>Confirm Email</p>
+        <div class="iconfield">
+            <i class="fa fa-envelope"></i>
+            <input class='field' placeholder="Same as above Email"{{form.confirm_email}}
+        </div>
+        <p class='label'>Contact</p>
+        <div class="iconfield">
+            <i class="fas fa-mobile-alt"></i>
+            <input class='field'  placeholder="Your Phone number Please"{{form.contact}}
+        </div>
+        <p class='label'>Password</p>
+        <div class="iconfield">
+            <i class="fas fa-key"></i>
+            <input class='field' placeholder="Put your Password"{{form.password1}}
+        </div>
+        <p class='label'>Confirm Password</p>
+        <div class="iconfield">
+            <i class="fas fa-key"></i>
+            <input class='field' placeholder="Put your Password"{{form.password2}}
+        </div>
+        <p class='label'>Address No.1</p>
+        <div class="iconfield">
+            <i class="fas fa-mobile-alt"></i>
+            <input class='field'  placeholder="Address Details"{{form.address1}}
+        </div>
+        <p class='label'>Address No.2</p>
+        <div class="iconfield">
+            <i class="fas fa-mobile-alt"></i>
+            <input class='field'  placeholder="Optional"{{form.address2}}
+        </div>
+        <p class='label'>Postal/Zip Code</p>
+        <div class="iconfield">
+            <i class="fas fa-mobile-alt"></i>
+            <input class='field'  placeholder="Your Area Postal Code"{{form.contact}}
+        </div>
+        <div class='submit_btn'>
+            <input id='sub' type='submit' value='Update'>
+        </div>
+    </form>
+{% endblock %}

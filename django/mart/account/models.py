@@ -12,4 +12,4 @@ class User(AbstractUser):
     REQUIRED_FIELDS=('email','contact','address1','first_name','last_name','postal_code',)
 
     def __str__(self):
-        return self.username    
+        return self.username
