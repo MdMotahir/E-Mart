@@ -27,6 +27,7 @@ class Product(models.Model):
     back_image=models.ImageField(upload_to='product/')
     right_image=models.ImageField(upload_to='product/')
     left_image=models.ImageField(upload_to='product/')
+    featured=models.BooleanField(default=False)
     stock=models.IntegerField()
     category=models.ForeignKey(Category, on_delete=models.CASCADE)
     slug=models.SlugField(blank=True)
@@ -94,4 +95,4 @@ class Review(models.Model):
     item=models.ForeignKey(Product, on_delete=models.CASCADE)
     comment=models.TextField()
     date_time=models.DateTimeField(auto_now_add=True)
-    rating=models.PositiveIntegerField(default=1,validators=[MinValueValidator(1), MaxValueValidator(5)])
+    rating=models.PositiveIntegerField(default=1)

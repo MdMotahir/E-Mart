@@ -2,40 +2,42 @@
 {% load static %}
 
 {%block containt%}
-    <h2>Search results....</h2>
-    {% if posts|length < 1 %}
-        <div class='wrong_search'>
-            <p>Your search -<span class='query'>{{query}}</span> - did not match any documents.<p>
-            <p>Suggestions:<p>
-            <ul>
-                <li>Make sure that all words are spelled correctly.</li>
-                <li>Try different keywords.</li>
-                <li>Try more general keywords.</li>
-            </ul>
-        </div>
-    {% endif %}
-    {% if query%}
-        <div class="row featured__filter">
-            {% for i in products %}
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="{{i.front_image.url}}">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="{%url 'order' i.slug%}"><i class="fas fa-shopping-bag"></i></a></li>
-                                <li><a href="{%url 'add_cart' i.slug%}"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="{%url 'Product Details' i.slug%}">{{i.name}}</a></h6>
-                            <h5>${{i.unite_price}}</h5>
+    <div class="container">
+        <h2>Search results....</h2>
+        {% if products|length < 1 %}
+            <div class='wrong_search'>
+                <p>Your search -<span class='query'>{{query}}</span> - did not match any documents.<p>
+                <p>Suggestions:<p>
+                <ul>
+                    <li>Make sure that all words are spelled correctly.</li>
+                    <li>Try different keywords.</li>
+                    <li>Try more general keywords.</li>
+                </ul>
+            </div>
+        {% endif %}
+        {% if query%}
+            <div class="row featured__filter">
+                {% for i in products %}
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="featured__item">
+                            <div class="featured__item__pic set-bg" data-setbg="{{i.front_image.url}}">
+                                <ul class="featured__item__pic__hover">
+                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                    <li><a href="{%url 'order' i.slug%}"><i class="fas fa-shopping-bag"></i></a></li>
+                                    <li><a href="{%url 'add_cart' i.slug%}"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="featured__item__text">
+                                <h6><a href="{%url 'Product Details' i.slug%}">{{i.name}}</a></h6>
+                                <h5>${{i.unite_price}}</h5>
+                            </div>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
-        </div>
-    {% else %}
-        <h1>Kindly Search Somethings</h1>
-    {% endif %}
-    <!-- Featured Section End -->
+                {% endfor %}
+            </div>
+        {% else %}
+            <h1>Kindly Search Somethings</h1>
+        {% endif %}
+        <!-- Featured Section End -->
+    </div>
 {% endblock %}

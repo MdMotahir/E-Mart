@@ -14,19 +14,19 @@ from django.db.models import Q
 class Search(View):
     def get(self,request):
         query=request.GET['query']
-        posts=Product.objects.filter(
+        products=Product.objects.filter(
                 Q(name__icontains=query),
                 Q(description__icontains=query),
                 Q(information__icontains=query),
             ).distinct()
-        context={'products':posts,'query':query}
+        context={'products':products,'query':query}
         return render(request,'product/Search.html',context)
 
 
 class ProductListView(generic.ListView):
     model=Product
     template_name='product/Home.html'
-    queryset=Product.objects.all()
+    queryset=Product.objects.filter(featured=True)
     context_object_name='products'
 
     def get_context_data(self, **kwargs):
@@ -34,6 +34,16 @@ class ProductListView(generic.ListView):
         category=Category.objects.all()
         context["category"] = category 
         return context
+
+class CategoryListView(View):
+    def get(self,request,slug):
+        category=Category.objects.all()
+        cat=Category.objects.get(slug=slug)
+        products=Product.objects.filter(featured=True)
+        product=products.filter(category=cat)
+        return render(request,"product/Category.html",context={"cat":cat,"product":product,"category":category})
+    
+    
 
 class ShopingListView(generic.ListView):
     model=Product
@@ -47,6 +57,12 @@ class ShopingListView(generic.ListView):
         context["category"] = category 
         return context
 
+class ShopCategoryListView(View):
+    def get(self,request,slug):
+        category=Category.objects.all()
+        cat=Category.objects.get(slug=slug)
+        product=Product.objects.filter(category=cat)
+        return render(request,"product/Category.html",context={"cat":cat,"product":product,"category":category})
 
 class ProductDetailsView(generic.DetailView):
     model=Product

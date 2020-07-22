@@ -5,8 +5,8 @@
     
     <div class="hero__item set-bg" data-setbg="static/product/img/hero/banner.jpg">
         <div class="hero__text">
-            <span>FRUIT FRESH</span>
-            <h2>Vegetable <br />100% Organic</h2>
+            <span>Best Site</span>
+            <h2>All Types Of Mobile <br />100% Confidence</h2>
             <p>Free Pickup and Delivery Available</p>
             <a href="#" class="primary-btn">SHOP NOW</a>
         </div>
@@ -19,30 +19,10 @@
                     {% for i in category%}
                         <div class="col-lg-3">
                             <div class="categories__item set-bg" data-setbg="{{i.image.url}}">
-                                <h5><a href="#">{{i.name}}</a></h5>
+                                <h5><a href="{%url "cat" i.slug%}">{{i.name}}</a></h5>
                             </div>
                         </div>
                     {% endfor %}
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="img/categories/cat-2.jpg">
-                            <h5><a href="#">Dried Fruit</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="img/categories/cat-3.jpg">
-                            <h5><a href="#">Vegetables</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="img/categories/cat-4.jpg">
-                            <h5><a href="#">drink fruits</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="img/categories/cat-5.jpg">
-                            <h5><a href="#">drink fruits</a></h5>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -61,9 +41,9 @@
                     <div class="featured__controls">
                         <ul>
                             <li class="active">All</li>
-                            <li>Mobiles</li>
-                            <li>Laptops</li>
-                            <li>Tv</li>
+                            {% for i in category %}
+                                <li><a href="{%url 'featured cat' i.slug%}">{{i}}</a></li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>

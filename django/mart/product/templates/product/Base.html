@@ -127,6 +127,7 @@
                                     <span class="arrow_carrot-down"></span>
                                     <ul>
                                         <li><a href="{%url 'Details' user.id%}">Details</a></li>
+                                        <li><a href="{%url 'add product'%}">Add Product</a></li>
                                         <li><a href="{%url 'logout'%}">Log Out</a></li>
                                     </ul>
                                 {% else %}
@@ -184,7 +185,7 @@
                         </div>
                         <ul>
                             {% for i in category %}
-                                <li><a href="#">{{i.name}}</a></li>
+                                <li><a href="{%url 'cat' i.slug%}">{{i.name}}</a></li>
                             {% endfor %}
                         </ul>
                     </div>

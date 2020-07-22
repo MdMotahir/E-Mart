@@ -7,6 +7,10 @@ urlpatterns = [
 
     path("Shop",ShopingListView.as_view(),name="Shop"),
 
+    path("Categoryf/<slug:slug>",CategoryListView.as_view(),name="featured cat"),
+
+    path("Category/<slug:slug>",ShopCategoryListView.as_view(),name="cat"),
+
     path("search",Search.as_view(),name='search'),
 
     path('my_cart',My_Cart.as_view(),name='cart'),
