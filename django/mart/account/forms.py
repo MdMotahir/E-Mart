@@ -11,7 +11,7 @@ class SignUpForm(UserCreationForm):
     postal_code=forms.RegexField(regex="^[6-9]\d{6}")
     class Meta:
         model = get_user_model()
-        fields=('first_name','last_name','username','email','confirm_email','contact','password1','password2','address1','address2','postal_code')
+        fields=('first_name','last_name','username','email','confirm_email','contact','is_seller','password1','password2','address1','address2','postal_code')
 
     def clean(self):
         cleaned_data=super().clean()

@@ -8,8 +8,9 @@ class User(AbstractUser):
     address1=models.TextField()
     address2=models.TextField()
     postal_code=models.IntegerField()
+    is_seller=models.BooleanField(default=False)
 
-    REQUIRED_FIELDS=('email','contact','address1','first_name','last_name','postal_code',)
+    REQUIRED_FIELDS=('email','contact','address1','first_name','last_name','postal_code','is_seller',)
 
     def __str__(self):
         return self.username

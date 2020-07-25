@@ -20,3 +20,8 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review 
         fields = ('comment','rating',)
+
+class ContactUsForm(forms.Form):
+    name=forms.CharField(max_length=100)
+    email=forms.EmailField()
+    message=forms.Textarea()

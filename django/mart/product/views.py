@@ -2,14 +2,19 @@ from django.shortcuts import render, redirect
 from product.models import *
 # Create your views here.
 from django.views import generic,View
-from django.views.generic.edit import FormMixin
+from django.views.generic.edit import FormMixin,FormView
 from product.forms import *
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.urls import reverse,reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin,UserPassesTestMixin
 from django.db.models import Q
+from django.core.paginator import Paginator
 
+class ContactUs(FormView):
+    form_class=ContactUsForm
+    success_url=reverse_lazy("Home")
+    template_name="product/Contact Us.html"
 
 class Search(View):
     def get(self,request):
@@ -21,7 +26,6 @@ class Search(View):
             ).distinct()
         context={'products':products,'query':query}
         return render(request,'product/Search.html',context)
-
 
 class ProductListView(generic.ListView):
     model=Product
@@ -41,15 +45,14 @@ class CategoryListView(View):
         cat=Category.objects.get(slug=slug)
         products=Product.objects.filter(featured=True)
         product=products.filter(category=cat)
-        return render(request,"product/Category.html",context={"cat":cat,"product":product,"category":category})
+        return render(request,"product/Fcategory.html",context={"cat":cat,"product":product,"category":category})
     
-    
-
 class ShopingListView(generic.ListView):
     model=Product
     template_name='product/Shoping.html'
     queryset=Product.objects.all()
     context_object_name='products'
+    paginate_by=8
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -241,7 +244,6 @@ class OrderView(LoginRequiredMixin,View):
     def get(self,request):
         order=Order.objects.filter(user=request.user)
         return render(request,"product/Order Details.html",context={'order':order})
-
 
 class OrderDetails(LoginRequiredMixin,View):
     def get(self,request,id):

@@ -13,6 +13,8 @@ urlpatterns = [
 
     path("search",Search.as_view(),name='search'),
 
+    path("Contact Us",ContactUs.as_view(),name='Contact'),
+
     path('my_cart',My_Cart.as_view(),name='cart'),
 
     path('checkout',checkout.as_view(),name='checkout'),
