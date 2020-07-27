@@ -17,6 +17,7 @@
             <input class='field' placeholder="Product Name"{{form.name}}
         </div>
         <p class='label'>Category </br> {{form.category}}<br></p>
+        <p class='label'>Want to featured {{form.featured}}</p>
         <p class='label'>Unite Price</p>
         <div class="iconfield">
             <i class="fa fa-envelope"></i>
@@ -52,7 +53,7 @@
         <p class='label'>Information</p>
             {{form.information|safe}}
         <div class='submit_btn'>
-            <input id='sub' type='submit' value='Sign Up'>
+            <input id='sub' type='submit' value='Add Product'>
         </div>
     </form>
 {% endblock %}

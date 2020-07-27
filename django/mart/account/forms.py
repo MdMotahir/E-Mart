@@ -9,6 +9,7 @@ class SignUpForm(UserCreationForm):
     address1=forms.CharField()
     address2=forms.CharField(required=False)
     postal_code=forms.RegexField(regex="^[6-9]\d{6}")
+    is_seller=forms.BooleanField()
     class Meta:
         model = get_user_model()
         fields=('first_name','last_name','username','email','confirm_email','contact','is_seller','password1','password2','address1','address2','postal_code')

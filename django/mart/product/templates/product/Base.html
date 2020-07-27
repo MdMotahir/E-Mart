@@ -159,7 +159,7 @@
                 <div class="col-lg-3">
                     <div class="header__cart">
                         <ul>
-                            <li><a href="#"><i class="fa fa-heart"></i> <span></span></a></li>
+                            <li><a href="{%url 'my wishlist'%}"><i class="fa fa-heart"></i> <span></span></a></li>
                             <li><a href="{%url 'cart' %}"><i class="fa fa-shopping-cart"></i></i> <span>{{cart.cartitems.count}}</span></a></li>
                         </ul>
                         {% if user.is_authenticated %}

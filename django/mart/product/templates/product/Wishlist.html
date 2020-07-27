@@ -1,0 +1,43 @@
+{% extends 'product/Base.html' %}
+
+{%block containt%}
+    <!-- Shoping Cart Section Begin -->
+	<section class="shoping-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="shoping__product">Products</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in wishlist %}
+                                    <tr>
+                                        <td class="shoping__cart__item">
+                                            <h5>{{i.item.name}}</h5>
+                                        </td>
+                                        <td class="shoping__cart__price">
+                                            <a href="{%url 'Product Details' i.item.slug%}" class="primary-btn">Product Details</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__btns">
+                        <a href="{%url "Shop"%}" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Shoping Cart Section End -->
+{% endblock %}

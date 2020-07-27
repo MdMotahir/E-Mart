@@ -5,7 +5,7 @@ from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 class ProductAddForm(forms.ModelForm):
     description=forms.CharField(widget=SummernoteWidget())
     information=forms.CharField(widget=SummernoteWidget())
-    featured=forms.BooleanField()
+    featured=forms.BooleanField(required=False)
     class Meta:
         model=Product
         fields=('name','category','unite_price','front_image','back_image','right_image','left_image','featured','stock','description','information')

@@ -96,3 +96,7 @@ class Review(models.Model):
     comment=models.TextField()
     date_time=models.DateTimeField(auto_now_add=True)
     rating=models.PositiveIntegerField(default=1)
+
+class MyWishlist(models.Model):
+    user=models.ForeignKey(get_user_model(),on_delete=models.CASCADE)
+    items=models.ManyToManyField(Items)

@@ -10,6 +10,7 @@ from django.urls import reverse,reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin,UserPassesTestMixin
 from django.db.models import Q
 from django.core.paginator import Paginator
+from django.db.models import Avg
 
 class ContactUs(FormView):
     form_class=ContactUsForm
@@ -32,6 +33,7 @@ class ProductListView(generic.ListView):
     template_name='product/Home.html'
     queryset=Product.objects.filter(featured=True)
     context_object_name='products'
+    paginate_by=8
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -75,7 +77,9 @@ class ProductDetailsView(generic.DetailView):
         item_name=kwargs['object']
         item=Product.objects.get(name=item_name)
         review=Review.objects.filter(item=item)
+        avg_rating=Review.objects.aggregate(Avg('rating'))
         context["review"] = review
+        context["avg_rating"] = avg_rating
         return context
 
 class ProductAddView(generic.CreateView):
@@ -111,7 +115,7 @@ class ReviewPart(LoginRequiredMixin,View):
             comment=comment,
             rating=int(rating)
         )
-        return redirect(reverse('Home'))
+        return redirect(reverse_lazy('Product Details', args=[slug]))
 
 class AddToCartDetails(View):
     def get(self,request,slug):
@@ -129,7 +133,7 @@ class AddToCartDetails(View):
                 cart={}
                 cart[item_name]=quantity
             request.session['cart']=cart
-            return redirect(reverse_lazy('Home'))
+            return redirect(reverse_lazy('Product Details', args=[slug]))
         else:
             item=Product.objects.get(slug=item_name)
             items=Items.objects.create(
@@ -143,18 +147,18 @@ class AddToCartDetails(View):
                 if product:
                     product[0].quantity=quantity
                     product[0].save()
-                    return redirect(reverse('Home'))
+                    return redirect(reverse_lazy('Product Details', args=[slug]))
                 else:
                     cart.cartitems.add(items)
                     items.quantity=quantity
                     items.save()
-                    return redirect(reverse('Home'))
+                    return redirect(reverse_lazy('Product Details', args=[slug]))
             else:
                 cart=Cart.objects.create(user=request.user)
                 cart.cartitems.add(items)
                 items.quantity=quantity
                 items.save()
-                return redirect(reverse('Home'))
+                return redirect(reverse_lazy('Product Details', args=[slug]))
 
 
 class AddToCart(View):
@@ -238,7 +242,7 @@ class checkout(LoginRequiredMixin,View):
         for i in cart_items.all():
             order.orderitems.add(i)
         cart.delete()
-        return redirect(reverse('Home'))
+        return redirect(reverse_lazy('my_order'))
 
 class OrderView(LoginRequiredMixin,View):
     def get(self,request):
@@ -251,3 +255,32 @@ class OrderDetails(LoginRequiredMixin,View):
         order=order[0]
         items=order.orderitems.all()
         return render(request,"product/Order Detail Page.html",context={'order':order,'items':items})
+
+class Wishlist(LoginRequiredMixin,View):
+    def get(self,request,slug):
+        item=Product.objects.get(slug=slug)
+        items,created=Items.objects.get_or_create(
+            user=request.user,
+            item=item,
+            )
+        lists=MyWishlist.objects.filter(user=request.user)
+        if lists:
+            l1=lists[0]
+            product=l1.items.filter(item__slug=slug)
+            if product:
+                product[0].quantity=1
+                product[0].save()
+                return redirect(reverse('Home'))
+            else:
+                l1.items.add(items)
+                return redirect(reverse('Home'))
+        else:
+            lists,created=MyWishlist.objects.get_or_create(user=request.user)
+            lists.items.add(items)
+            return redirect(reverse('Home'))
+
+class WishlistView(LoginRequiredMixin,View):
+    def get(self,request):
+        wishlist,created=MyWishlist.objects.get_or_create(user=request.user)
+        items=wishlist.items.all()
+        return render(request,"product/Wishlist.html",context={'wishlist':items})
