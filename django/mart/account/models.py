@@ -7,7 +7,7 @@ class User(AbstractUser):
     contact=models.CharField(max_length=10)
     address1=models.TextField()
     address2=models.TextField()
-    postal_code=models.IntegerField()
+    postal_code=models.CharField(max_length=10)
     is_seller=models.BooleanField(default=False)
 
     REQUIRED_FIELDS=('email','contact','address1','first_name','last_name','postal_code','is_seller',)

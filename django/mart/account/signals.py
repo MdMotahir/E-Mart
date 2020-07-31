@@ -8,7 +8,7 @@ def assign_default_group(sender,instance,created,**kwargs):
     if created:
         Buyer=Group.objects.get(name='Buyer')
         Seller=Group.objects.get(name='Seller')
-        if instance.category == False:
+        if instance.is_seller == False:
             instance.groups.add(Buyer)
         else:
             instance.groups.add(Seller)

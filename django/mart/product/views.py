@@ -11,6 +11,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixi
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.db.models import Avg
+from django.contrib.messages.views import SuccessMessageMixin
 
 class ContactUs(FormView):
     form_class=ContactUsForm
@@ -21,9 +22,9 @@ class Search(View):
     def get(self,request):
         query=request.GET['query']
         products=Product.objects.filter(
-                Q(name__icontains=query),
-                Q(description__icontains=query),
+                # Q(name__icontains=query),
                 Q(information__icontains=query),
+                # Q(description__icontains=query),
             ).distinct()
         context={'products':products,'query':query}
         return render(request,'product/Search.html',context)
@@ -45,9 +46,9 @@ class CategoryListView(View):
     def get(self,request,slug):
         category=Category.objects.all()
         cat=Category.objects.get(slug=slug)
-        products=Product.objects.filter(featured=True)
-        product=products.filter(category=cat)
-        return render(request,"product/Fcategory.html",context={"cat":cat,"product":product,"category":category})
+        products=Product.objects.filter(featured=True,category=cat)
+        # products=products.filter(category=cat)
+        return render(request,"product/Fcategory.html",context={"cat":cat,"products":products,"category":category})
     
 class ShopingListView(generic.ListView):
     model=Product
@@ -72,17 +73,19 @@ class ShopCategoryListView(View):
 class ProductDetailsView(generic.DetailView):
     model=Product
     template_name="product/Product Details.html"
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         item_name=kwargs['object']
         item=Product.objects.get(name=item_name)
         review=Review.objects.filter(item=item)
-        avg_rating=Review.objects.aggregate(Avg('rating'))
+        avg_rating=review.aggregate(Avg('rating'))
         context["review"] = review
         context["avg_rating"] = avg_rating
         return context
 
-class ProductAddView(generic.CreateView):
+class ProductAddView(LoginRequiredMixin,PermissionRequiredMixin,generic.CreateView):
+    permission_required='product.add_product'
     model=Product
     form_class=ProductAddForm
     template_name='product/ProductAdd.html'
@@ -91,8 +94,16 @@ class ProductAddView(generic.CreateView):
     def form_valid(self, form):
         form.instance.user=self.request.user
         return super().form_valid(form)
+    
+    # def test_func(self,*args, **kwargs):
+    #     product=Product.objects.get(slug=self.kwargs.get('slug'))
+    #     if product.author==self.request.user:
+    #         return True
+    #     else:
+    #         return False
 
-class ProductUpdateView(generic.UpdateView):
+class ProductUpdateView(LoginRequiredMixin,PermissionRequiredMixin,generic.UpdateView):
+    permission_required='product.change_product'
     model=Product
     form_class=ProductAddForm
     template_name='product/Product Update.html'
@@ -101,6 +112,13 @@ class ProductUpdateView(generic.UpdateView):
     def form_valid(self, form):
         form.instance.user=self.request.user
         return super().form_valid(form)
+    
+    def test_func(self,*args, **kwargs):
+        product=Product.objects.get(slug=self.kwargs.get('slug'))
+        if product.author==self.request.user:
+            return True
+        else:
+            return False
 
 class ReviewPart(LoginRequiredMixin,View):
     def get(self,request,slug):
@@ -232,6 +250,8 @@ class OrderNow(LoginRequiredMixin,View):
         )
         order_list=Order.objects.create(user=request.user)
         order_list.orderitems.add(items)
+        item.stock-=1
+        item.save()
         return redirect(reverse_lazy('Home'))
 
 class checkout(LoginRequiredMixin,View):
@@ -240,7 +260,13 @@ class checkout(LoginRequiredMixin,View):
         cart_items=cart.cartitems.all()
         order=Order.objects.create(user=request.user)
         for i in cart_items.all():
+            pro=Product.objects.get(name=i.item)
+            if pro.stock<i.quantity:
+                i.quantity=pro.stock
+                i.save()
             order.orderitems.add(i)
+            pro.stock-=i.quantity
+            pro.save()
         cart.delete()
         return redirect(reverse_lazy('my_order'))
 
@@ -259,7 +285,7 @@ class OrderDetails(LoginRequiredMixin,View):
 class Wishlist(LoginRequiredMixin,View):
     def get(self,request,slug):
         item=Product.objects.get(slug=slug)
-        items,created=Items.objects.get_or_create(
+        items=Items.objects.create(
             user=request.user,
             item=item,
             )
